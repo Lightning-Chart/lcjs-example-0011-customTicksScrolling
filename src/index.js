@@ -7,13 +7,12 @@ const lcjs = require('@arction/lcjs')
 // Extract required parts from LightningChartJS.
 const {
     lightningChart,
-    DataPatterns,
     AxisScrollStrategies,
     SolidLine,
     SolidFill,
     ColorHEX,
-    AutoCursorModes,
     AxisTickStrategies,
+    UIElementBuilders,
     Themes,
 } = lcjs
 
@@ -28,8 +27,16 @@ const chart = lightningChart().ChartXY({
 })
     .setTitle('Custom X ticks with scrolling Axis')
 
-// Add line series to visualize the data received
-const series = chart.addLineSeries({ dataPattern: DataPatterns.horizontalProgressive })
+// Create line series optimized for regular progressive X data.
+const series = chart.addLineSeries({
+    dataPattern: {
+        // pattern: 'ProgressiveX' => Each consecutive data point has increased X coordinate.
+        pattern: 'ProgressiveX',
+        // regularProgressiveStep: true => The X step between each consecutive data point is regular (for example, always `1.0`).
+        regularProgressiveStep: true,
+    }
+ })
+
 // Style the series
 series
     .setStrokeStyle(new SolidLine({
@@ -37,8 +44,6 @@ series
         fillStyle: new SolidFill({ color: ColorHEX('#5aafc7') })
     }))
     .setMouseInteractions(false)
-
-chart.setAutoCursorMode(AutoCursorModes.disabled)
 
 // * Manage X Axis ticks with custom logic *
 // Disable default X ticks.
@@ -48,25 +53,20 @@ const xAxis = chart.getDefaultAxisX()
 // Define style for custom ticks.
 const gridStrokeStyleMajor = new SolidLine({ thickness: 1, fillStyle: new SolidFill({ color: ColorHEX('#fff').setA(100) }) })
 const gridStrokeStyleMinor = new SolidLine({ thickness: 1, fillStyle: new SolidFill({ color: ColorHEX('#fff').setA(50) }) })
-const backgroundStrokeStyle = new SolidLine({ thickness: 1, fillStyle: new SolidFill({color: ColorHEX('#fff').setA(50)}) })
 
 const addCustomTickX = (pos, isMinor) => {
-    const tick = xAxis.addCustomTick()
+    const tick = xAxis.addCustomTick(UIElementBuilders.AxisTick)
         // Set tick text.
         .setTextFormatter(() => String(pos))
         // Set tick location.
         .setValue(pos)
         // Style tick.
         .setMarker(marker => marker
-            .setFont(font => font
-                .setSize( isMinor ? 12 : 14 )
-            )
-            .setBackground(background => background
-                .setStrokeStyle(backgroundStrokeStyle)
-                // "tick length" as pixels.
-                .setPointerLength(6)
+            .setTextFont(font => font
+                .setSize( isMinor ? 10 : 14 )
             )
         )
+        .setTickLength( isMinor ? 4 : 8 )
         .setGridStrokeStyle(isMinor ? gridStrokeStyleMinor : gridStrokeStyleMajor)
     customTicks.push(tick)
     return tick
@@ -82,8 +82,8 @@ const createTicksInRangeX = (start, end) => {
             addCustomTickX(majorTickPos, false)
         }
     }
-    // Major ticks every 500 units, but not at same interval as major ticks.
-    const minorTickInterval = 500
+    // Major ticks every 100 units, but not at same interval as major ticks.
+    const minorTickInterval = 100
     for (let minorTickPos = start - (start % minorTickInterval); minorTickPos <= end; minorTickPos += minorTickInterval) {
         if (minorTickPos >= start && minorTickPos % majorTickInterval !== 0) {
             addCustomTickX(minorTickPos, true)

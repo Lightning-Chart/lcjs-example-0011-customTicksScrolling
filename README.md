@@ -34,6 +34,7 @@ Both major and minor ticks on X Axis are created in application code, and destro
 * [Axis tick strategies]
 * [Custom tick]
 * [Pointable background]
+* [Data patterns]
 * [Solid FillStyle]
 * [Solid LineStyle]
 * [RGBA color factory]
@@ -60,13 +61,14 @@ Direct developer email support can be purchased through a [Support Plan][4] or b
 © Arction Ltd 2009-2020. All rights reserved.
 
 
-[XY cartesian chart]: https://www.arction.com/lightningchart-js-api-documentation/v2.2.0/classes/chartxy.html
-[Line series]: https://www.arction.com/lightningchart-js-api-documentation/v2.2.0/classes/lineseries.html
-[Axis]: https://www.arction.com/lightningchart-js-api-documentation/v2.2.0/classes/axis.html
-[Axis tick strategies]: https://www.arction.com/lightningchart-js-api-documentation/v2.2.0/globals.html#axistickstrategies
-[Custom tick]: https://www.arction.com/lightningchart-js-api-documentation/v2.2.0/classes/customtick.html
-[Pointable background]: https://www.arction.com/lightningchart-js-api-documentation/v2.2.0/interfaces/pointablebackground.html
-[Solid FillStyle]: https://www.arction.com/lightningchart-js-api-documentation/v2.2.0/classes/solidfill.html
-[Solid LineStyle]: https://www.arction.com/lightningchart-js-api-documentation/v2.2.0/classes/solidline.html
-[RGBA color factory]: https://www.arction.com/lightningchart-js-api-documentation/v2.2.0/globals.html#colorrgba
+[XY cartesian chart]: https://www.arction.com/lightningchart-js-api-documentation/v3.0.0/classes/chartxy.html
+[Line series]: https://www.arction.com/lightningchart-js-api-documentation/v3.0.0/classes/lineseries.html
+[Axis]: https://www.arction.com/lightningchart-js-api-documentation/v3.0.0/classes/axis.html
+[Axis tick strategies]: https://www.arction.com/lightningchart-js-api-documentation/v3.0.0/globals.html#axistickstrategies
+[Custom tick]: https://www.arction.com/lightningchart-js-api-documentation/v3.0.0/classes/customtick.html
+[Pointable background]: https://www.arction.com/lightningchart-js-api-documentation/v3.0.0/interfaces/pointablebackground.html
+[Data patterns]: https://www.arction.com/lightningchart-js-api-documentation/v3.0.0/interfaces/datapattern.html
+[Solid FillStyle]: https://www.arction.com/lightningchart-js-api-documentation/v3.0.0/classes/solidfill.html
+[Solid LineStyle]: https://www.arction.com/lightningchart-js-api-documentation/v3.0.0/classes/solidline.html
+[RGBA color factory]: https://www.arction.com/lightningchart-js-api-documentation/v3.0.0/globals.html#colorrgba
 
