@@ -8,9 +8,6 @@ const lcjs = require('@arction/lcjs')
 const {
     lightningChart,
     AxisScrollStrategies,
-    SolidLine,
-    SolidFill,
-    ColorHEX,
     AxisTickStrategies,
     UIElementBuilders,
     Themes,
@@ -23,7 +20,7 @@ const {
 
 // Create a XY Chart.
 const chart = lightningChart().ChartXY({
-    // theme: Themes.dark 
+    // theme: Themes.darkGold 
 })
     .setTitle('Custom X ticks with scrolling Axis')
 
@@ -36,23 +33,12 @@ const series = chart.addLineSeries({
         regularProgressiveStep: true,
     }
  })
-
-// Style the series
-series
-    .setStrokeStyle(new SolidLine({
-        thickness: 2,
-        fillStyle: new SolidFill({ color: ColorHEX('#5aafc7') })
-    }))
     .setMouseInteractions(false)
 
 // * Manage X Axis ticks with custom logic *
 // Disable default X ticks.
 const xAxis = chart.getDefaultAxisX()
     .setTickStrategy(AxisTickStrategies.Empty)
-
-// Define style for custom ticks.
-const gridStrokeStyleMajor = new SolidLine({ thickness: 1, fillStyle: new SolidFill({ color: ColorHEX('#fff').setA(100) }) })
-const gridStrokeStyleMinor = new SolidLine({ thickness: 1, fillStyle: new SolidFill({ color: ColorHEX('#fff').setA(50) }) })
 
 const addCustomTickX = (pos, isMinor) => {
     const tick = xAxis.addCustomTick(UIElementBuilders.AxisTick)
@@ -67,7 +53,7 @@ const addCustomTickX = (pos, isMinor) => {
             )
         )
         .setTickLength( isMinor ? 4 : 8 )
-        .setGridStrokeStyle(isMinor ? gridStrokeStyleMinor : gridStrokeStyleMajor)
+        .setGridStrokeStyle(style => style.setFillStyle(fill => fill.setA( isMinor ? 50 : 100 )))
     customTicks.push(tick)
     return tick
 }
