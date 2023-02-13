@@ -4,24 +4,20 @@
 // Import LightningChartJS
 const lcjs = require('@arction/lcjs')
 
-// Extract required parts from LightningChartJS.
-const {
-    lightningChart,
-    AxisScrollStrategies,
-    AxisTickStrategies,
-    UIElementBuilders,
-    Themes,
-} = lcjs
+// Import xydata
+const xydata = require('@arction/xydata')
 
-// Import data-generators from 'xydata'-library.
-const {
-    createProgressiveTraceGenerator
-} = require('@arction/xydata')
+// Extract required parts from LightningChartJS.
+const { lightningChart, AxisScrollStrategies, AxisTickStrategies, UIElementBuilders, Themes } = lcjs
+
+// Import data-generators from 'xydata'-library.s
+const { createProgressiveTraceGenerator } = xydata
 
 // Create a XY Chart.
-const chart = lightningChart().ChartXY({
-    // theme: Themes.darkGold 
-})
+const chart = lightningChart()
+    .ChartXY({
+        // theme: Themes.darkGold
+    })
     .setTitle('Custom X ticks with scrolling Axis')
 
 // Create line series optimized for regular progressive X data.
@@ -31,29 +27,20 @@ const series = chart.addLineSeries({
         pattern: 'ProgressiveX',
         // regularProgressiveStep: true => The X step between each consecutive data point is regular (for example, always `1.0`).
         regularProgressiveStep: true,
-    }
- })
-    .setMouseInteractions(false)
+    },
+})
 
 // * Manage X Axis ticks with custom logic *
 // Disable default X ticks.
-const xAxis = chart.getDefaultAxisX()
-    .setTickStrategy(AxisTickStrategies.Empty)
+const xAxis = chart.getDefaultAxisX().setTickStrategy(AxisTickStrategies.Empty)
 
 const addCustomTickX = (pos, isMinor) => {
-    const tick = xAxis.addCustomTick(UIElementBuilders.AxisTick)
+    const tick = xAxis
+        .addCustomTick(isMinor ? UIElementBuilders.AxisTickMinor : UIElementBuilders.AxisTickMajor)
         // Set tick text.
         .setTextFormatter(() => String(pos))
         // Set tick location.
         .setValue(pos)
-        // Style tick.
-        .setMarker(marker => marker
-            .setTextFont(font => font
-                .setSize( isMinor ? 10 : 14 )
-            )
-        )
-        .setTickLength( isMinor ? 4 : 8 )
-        .setGridStrokeStyle(style => style.setFillStyle(fill => fill.setA( isMinor ? 50 : 100 )))
     customTicks.push(tick)
     return tick
 }
@@ -78,7 +65,7 @@ const createTicksInRangeX = (start, end) => {
 }
 // X range until which custom ticks are valid.
 let customTicksPos = 0
-xAxis.onScaleChange((start, end) => {
+xAxis.onIntervalChange((_, start, end) => {
     // Ensure new ticks are created.
     if (end > customTicksPos) {
         createTicksInRangeX(customTicksPos, end)
@@ -86,7 +73,7 @@ xAxis.onScaleChange((start, end) => {
     }
 
     // Destroy ticks that are out of scrolling range.
-    customTicks = customTicks.filter(tick => {
+    customTicks = customTicks.filter((tick) => {
         if (tick.getValue() < start) {
             // Tick is out of view.
             tick.dispose()
@@ -100,21 +87,19 @@ xAxis.onScaleChange((start, end) => {
 // Setup X Axis as progressive scrolling.
 xAxis
     .setTitle('X Axis (custom ticks)')
-    .setInterval(0, 1400)
+    .setInterval({ start: 0, end: 1400, stopAxisAfter: false })
     .setScrollStrategy(AxisScrollStrategies.progressive)
 
-chart.getDefaultAxisY()
-    .setTitle('Y Axis')
-
+chart.getDefaultAxisY().setTitle('Y Axis')
 
 // Stream data in.
 createProgressiveTraceGenerator()
     .setNumberOfPoints(10000)
     .generate()
     .setStreamRepeat(true)
-    .setStreamInterval(1000/60)
+    .setStreamInterval(1000 / 60)
     .setStreamBatchSize(5)
     .toStream()
-    .forEach(point => {
+    .forEach((point) => {
         series.add(point)
     })
