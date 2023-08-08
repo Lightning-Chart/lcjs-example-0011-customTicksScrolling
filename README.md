@@ -61,14 +61,14 @@ Direct developer email support can be purchased through a [Support Plan][4] or b
 © LightningChart Ltd 2009-2022. All rights reserved.
 
 
-[XY cartesian chart]: https://lightningchart.com/lightningchart-js-api-documentation/v4.1.0/classes/ChartXY.html
-[Line series]: https://lightningchart.com/lightningchart-js-api-documentation/v4.1.0/classes/LineSeries.html
-[Axis]: https://lightningchart.com/lightningchart-js-api-documentation/v4.1.0/classes/Axis.html
-[Axis tick strategies]: https://lightningchart.com/lightningchart-js-api-documentation/v4.1.0/variables/AxisTickStrategies.html
-[Custom tick]: https://lightningchart.com/lightningchart-js-api-documentation/v4.1.0/classes/CustomTick.html
-[Pointable background]: https://lightningchart.com/lightningchart-js-api-documentation/v4.1.0/interfaces/PointableBackground.html
-[Data patterns]: https://lightningchart.com/lightningchart-js-api-documentation/v4.1.0/interfaces/DataPattern.html
-[Solid FillStyle]: https://lightningchart.com/lightningchart-js-api-documentation/v4.1.0/classes/SolidFill.html
-[Solid LineStyle]: https://lightningchart.com/lightningchart-js-api-documentation/v4.1.0/classes/SolidLine.html
-[RGBA color factory]: https://lightningchart.com/lightningchart-js-api-documentation/v4.1.0/functions/ColorRGBA.html
+[XY cartesian chart]: https://lightningchart.com/js-charts/api-documentation/v4.2.0/classes/ChartXY.html
+[Line series]: https://lightningchart.com/js-charts/api-documentation/v4.2.0/classes/LineSeries.html
+[Axis]: https://lightningchart.com/js-charts/api-documentation/v4.2.0/classes/Axis.html
+[Axis tick strategies]: https://lightningchart.com/js-charts/api-documentation/v4.2.0/variables/AxisTickStrategies.html
+[Custom tick]: https://lightningchart.com/js-charts/api-documentation/v4.2.0/classes/CustomTick.html
+[Pointable background]: https://lightningchart.com/js-charts/api-documentation/v4.2.0/interfaces/PointableBackground.html
+[Data patterns]: https://lightningchart.com/js-charts/api-documentation/v4.2.0/interfaces/DataPattern.html
+[Solid FillStyle]: https://lightningchart.com/js-charts/api-documentation/v4.2.0/classes/SolidFill.html
+[Solid LineStyle]: https://lightningchart.com/js-charts/api-documentation/v4.2.0/classes/SolidLine.html
+[RGBA color factory]: https://lightningchart.com/js-charts/api-documentation/v4.2.0/functions/ColorRGBA.html
 
