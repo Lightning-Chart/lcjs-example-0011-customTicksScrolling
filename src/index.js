@@ -87,7 +87,7 @@ xAxis.onIntervalChange((_, start, end) => {
 // Setup X Axis as progressive scrolling.
 xAxis
     .setTitle('X Axis (custom ticks)')
-    .setInterval({ start: 0, end: 1400, stopAxisAfter: false })
+    .setDefaultInterval((state) => ({ end: state.dataMax, start: (state.dataMax ?? 0) - 1400, stopAxisAfter: false }))
     .setScrollStrategy(AxisScrollStrategies.progressive)
 
 chart.getDefaultAxisY().setTitle('Y Axis')
