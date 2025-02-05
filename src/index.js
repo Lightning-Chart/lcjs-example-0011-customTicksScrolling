@@ -8,7 +8,7 @@ const lcjs = require('@lightningchart/lcjs')
 const xydata = require('@lightningchart/xydata')
 
 // Extract required parts from LightningChartJS.
-const { lightningChart, AxisScrollStrategies, AxisTickStrategies, UIElementBuilders, Themes } = lcjs
+const { lightningChart, emptyFill, AxisScrollStrategies, AxisTickStrategies, UIElementBuilders, Themes } = lcjs
 
 // Import data-generators from 'xydata'-library.s
 const { createProgressiveTraceGenerator } = xydata
@@ -23,14 +23,12 @@ const chart = lightningChart({
     .setTitle('Custom X ticks with scrolling Axis')
 
 // Create line series optimized for regular progressive X data.
-const series = chart.addLineSeries({
-    dataPattern: {
-        // pattern: 'ProgressiveX' => Each consecutive data point has increased X coordinate.
-        pattern: 'ProgressiveX',
-        // regularProgressiveStep: true => The X step between each consecutive data point is regular (for example, always `1.0`).
-        regularProgressiveStep: true,
-    },
-})
+const series = chart
+    .addPointLineAreaSeries({
+        dataPattern: 'ProgressiveX',
+    })
+    .setAreaFillStyle(emptyFill)
+    .setMaxSampleCount(10_000)
 
 // * Manage X Axis ticks with custom logic *
 // Disable default X ticks.
@@ -50,8 +48,8 @@ const addCustomTickX = (pos, isMinor) => {
 // Create custom ticks on X Axis on realtime scrolling application.
 let customTicks = []
 const createTicksInRangeX = (start, end) => {
-    // Major ticks every 1000 units.
-    const majorTickInterval = 1000
+    // Major ticks every 500 units.
+    const majorTickInterval = 500
     for (let majorTickPos = start - (start % majorTickInterval); majorTickPos <= end; majorTickPos += majorTickInterval) {
         if (majorTickPos >= start) {
             addCustomTickX(majorTickPos, false)
@@ -67,7 +65,8 @@ const createTicksInRangeX = (start, end) => {
 }
 // X range until which custom ticks are valid.
 let customTicksPos = 0
-xAxis.onIntervalChange((_, start, end) => {
+xAxis.addEventListener('intervalchange', (event) => {
+    const { start, end } = event
     // Ensure new ticks are created.
     if (end > customTicksPos) {
         createTicksInRangeX(customTicksPos, end)
