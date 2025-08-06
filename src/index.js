@@ -18,17 +18,13 @@ const chart = lightningChart({
             resourcesBaseUrl: new URL(document.head.baseURI).origin + new URL(document.head.baseURI).pathname + 'resources/',
         })
     .ChartXY({
+        legend: { visible: false },
         theme: Themes[new URLSearchParams(window.location.search).get('theme') || 'darkGold'] || undefined,
     })
     .setTitle('Custom X ticks with scrolling Axis')
 
 // Create line series optimized for regular progressive X data.
-const series = chart
-    .addPointLineAreaSeries({
-        dataPattern: 'ProgressiveX',
-    })
-    .setAreaFillStyle(emptyFill)
-    .setMaxSampleCount(10_000)
+const series = chart.addLineSeries().setMaxSampleCount(10_000)
 
 // * Manage X Axis ticks with custom logic *
 // Disable default X ticks.
@@ -89,7 +85,7 @@ xAxis.addEventListener('intervalchange', (event) => {
 xAxis
     .setTitle('X Axis (custom ticks)')
     .setDefaultInterval((state) => ({ end: state.dataMax, start: (state.dataMax ?? 0) - 1400, stopAxisAfter: false }))
-    .setScrollStrategy(AxisScrollStrategies.progressive)
+    .setScrollStrategy(AxisScrollStrategies.scrolling)
 
 chart.getDefaultAxisY().setTitle('Y Axis')
 
@@ -102,5 +98,5 @@ createProgressiveTraceGenerator()
     .setStreamBatchSize(5)
     .toStream()
     .forEach((point) => {
-        series.add(point)
+        series.appendSample(point)
     })
